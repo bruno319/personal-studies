@@ -1,0 +1,5 @@
+rootProject.name = 'song-app'
+include 'server'
+include 'song-service'
+include 'playlist-service'
+include 'app-service'

@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.ilegra.swe.brunovieira'
+version '1.0'
+
+sourceCompatibility = 1.8
+mainClassName = 'com.ilegra.sweexpress.brunovieira.calculator.CalculatorApplication'
+
+repositories {
+    mavenCentral()
+}
+
+ext{
+    karyonVersion = '2.9.2'
+    springVersion = '5.1.8.RELEASE'
+}
+
+dependencies {
+    compile group: 'com.netflix.karyon', name: 'karyon2-core', version: karyonVersion
+    compile group: 'com.netflix.karyon', name: 'karyon2-archaius', version: karyonVersion
+    compile group: 'com.netflix.karyon', name: 'karyon2-eureka', version: karyonVersion
+    compile group: 'com.netflix.karyon', name: 'karyon2-admin', version: karyonVersion
+    compile group: 'com.netflix.karyon', name: 'karyon2-admin-web', version: karyonVersion
+    compile group: 'com.netflix.karyon', name: 'karyon2-servo', version: karyonVersion
+
+    compile group: 'org.springframework', name: 'spring-context', version: springVersion
+    compile group: 'org.springframework', name: 'spring-core', version: springVersion
+    compile group: 'org.springframework', name: 'spring-beans', version: springVersion
+    testCompile group: 'org.springframework', name: 'spring-test', version: springVersion
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+}

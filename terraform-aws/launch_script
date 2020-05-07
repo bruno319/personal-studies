@@ -1,0 +1,31 @@
+#!/bin/bash
+
+REGION="us-east-1"
+SOURCE_AMI="ami-07d0cf3af28718ef8"
+AWS_ACCESS_KEY="$1"
+AWS_SECRET_KEY="$2"
+AMI_NAME="calc-ami-$(date +%s)"
+
+function bake() {
+  cd packer/ || exit
+  sudo packer build \
+    -var "region=$REGION" \
+    -var "source_ami=$SOURCE_AMI" \
+    -var "aws_access_key=$AWS_ACCESS_KEY" \
+    -var "aws_secret_key=$AWS_SECRET_KEY" \
+    -var "ami_name=$AMI_NAME" \
+     aws-calc.json
+}
+
+function launch() {
+  cd ../terraform/ || exit
+  terraform init
+  terraform apply -auto-aprove \
+    -var "region=$REGION" \
+    -var "aws_access_key=$AWS_ACCESS_KEY" \
+    -var "aws_secret_key=$AWS_SECRET_KEY" \
+    -var "ami_name=$AMI_NAME"
+}
+
+bake
+launch

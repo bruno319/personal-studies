@@ -1,0 +1,13 @@
+---
+- git:
+    repo: 'https://github.com/BrunoVieira319/calc-go.git'
+    dest: "{{ app_path }}"
+
+- name: build calculator
+  shell: go build -o "{{ app_path }}"/calc-microservice "{{ app_path }}"/main.go
+
+- name: start calculator
+  shell: "{{ app_path }}/calc-microservice &"
+
+- name: verify if calculator is running
+  include: roles/microservice/handlers/main.yml

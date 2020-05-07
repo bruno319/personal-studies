@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "docker_hub_user": "{{env `DOCKER_HUB_USER`}}",
+    "docker_hub_password": "{{env `DOCKER_HUB_PASSWORD`}}",
+    "docker_hub_repository": "{{env `DOCKER_HUB_REPOSITORY`}}"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "openjdk:8",
+      "commit": true,
+      "changes": [
+        "CMD [\"opt/apache-tomcat-9.0.22/bin/catalina.sh\", \"run\"]",
+        "EXPOSE 8080"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "pet-store-1.0.war",
+      "destination": "/tmp/pet-store-1.0.war"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "infra/ansible/playbook.yml"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "{{user `docker_hub_repository`}}",
+        "tag": "latest",
+        "force": "true"
+      },
+      {
+        "type": "docker-push",
+        "login": "true",
+        "login_username": "{{user `docker_hub_user`}}",
+        "login_password": "{{user `docker_hub_password`}}"
+      }
+    ]
+  ]
+}

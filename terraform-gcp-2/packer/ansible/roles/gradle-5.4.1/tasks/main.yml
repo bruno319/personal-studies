@@ -1,0 +1,23 @@
+- name: Install unzip package
+  package:
+    name: unzip
+    state: latest
+
+- name: Download gradle package
+  get_url:
+    url: https://services.gradle.org/distributions/gradle-5.4.1-bin.zip
+    dest: /tmp/gradle-5.4.1-bin.zip
+
+- name: Unzip gradle package
+  unarchive:
+    src: /tmp/gradle-5.4.1-bin.zip
+    dest: /usr/local/share/
+    remote_src: True
+
+- name: Add a gradle symlink to path
+  file:
+    src: /usr/local/share/gradle-5.4.1/bin/gradle
+    dest: /usr/local/bin/gradle
+    owner: root
+    group: root
+    state: link

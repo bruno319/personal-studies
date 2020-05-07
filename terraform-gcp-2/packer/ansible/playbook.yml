@@ -1,0 +1,8 @@
+- hosts: all
+  become: yes
+  become_user: root
+  roles:
+  - java-8
+  - gradle-5.4.1
+  - mongodb
+  - project

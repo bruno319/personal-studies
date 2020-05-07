@@ -1,0 +1,6 @@
+#!/bin/bash
+
+gcloud init
+gcloud app create
+gcloud app deploy
+gcloud app browse -s calc-microservice

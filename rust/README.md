@@ -1,0 +1,3 @@
+## Rust
+
+Exercises from rustbook

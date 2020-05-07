@@ -1,0 +1,40 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.ilegra.swe.brunovieira'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    implementation {
+        exclude group: 'javax.servlet', module: 'servlet-api'
+    }
+}
+
+dependencies {
+    implementation 'com.netflix.eureka:eureka-client:1.9.12'
+    implementation 'com.netflix.eureka:eureka-core:1.9.12'
+
+    implementation 'com.netflix.ribbon:ribbon:2.7.17'
+    implementation 'com.netflix.ribbon:ribbon-core:2.7.17'
+    implementation 'com.netflix.ribbon:ribbon-loadbalancer:2.7.17'
+
+    implementation 'com.netflix.feign:feign-core:8.18.0'
+    implementation 'com.netflix.feign:feign-gson:8.18.0'
+    implementation 'com.netflix.feign:feign-hystrix:8.18.0'
+    compile group: 'com.netflix.hystrix', name: 'hystrix-metrics-event-stream', version: '1.5.18'
+
+    implementation 'javax.inject:javax.inject:1'
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

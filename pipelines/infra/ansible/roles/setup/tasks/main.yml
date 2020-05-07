@@ -1,0 +1,5 @@
+- name: Copy project pet-store to tomcat/webapps
+  copy:
+    src: /tmp/pet-store-1.0.war
+    dest: /opt/apache-tomcat-9.0.22/webapps
+    remote_src: yes

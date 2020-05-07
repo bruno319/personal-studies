@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'APPLICATION_NAME', defaultValue: 'calc-microservice')
+        string(name: 'AUTHOR', defaultValue: 'brunovieira')
+        string(name: 'VERSION', defaultValue: '1.0')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh """
+                    cd bruno-vieira/tema-12/bake/src/
+                    go build -o ${params.APPLICATION_NAME} main.go
+                """
+            }
+        }
+        stage('Bake') {
+            steps {
+                sh """
+                    cd bruno-vieira/tema-12/bake/src/
+                    sudo packer build \
+                        -var 'application_name=${params.APPLICATION_NAME}' \
+                        -var 'author=${params.AUTHOR}' \
+                        -var 'version=${params.VERSION}' \
+                        packer-calc.json
+                """
+            }
+        }
+    }
+}

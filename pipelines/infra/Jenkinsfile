@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage('download') {
+             steps {
+                rtServer (
+                    id: "Artifactory-1",
+                    url: "${env.JFROG_SERVER}",
+                    username: "${env.JFROG_USER}",
+                    password: "${env.JFROG_PASSWORD}"
+                )
+                rtDownload (
+                    serverId: "Artifactory-1",
+                    spec: """
+                        {
+                            "files": [
+                                {
+                                    "pattern": "generic-local/pet-store-1.0.war",
+                                    "target": "pet-store-1.0.war"
+                                }
+                            ]
+                        }
+                    """
+                )
+            }
+        }
+        stage('bake') {
+            steps {
+                sh 'packer build infra/packer.json'
+            }
+        }
+    }
+}

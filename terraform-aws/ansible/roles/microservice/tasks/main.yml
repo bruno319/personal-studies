@@ -1,0 +1,18 @@
+---
+- git:
+    repo: 'https://github.com/BrunoVieira319/calc-go.git'
+    dest: "{{ app_path }}"
+
+- name: build calculator
+  shell: go build -o "{{ app_path }}"/calc-microservice "{{ app_path }}"/main.go
+
+- name: move unit file to systemd folder
+  copy:
+    src: /home/ubuntu/calc.service
+    dest: /etc/systemd/system/
+
+- name: configure service to start on boot
+  systemd:
+    name: calc
+    state: started
+    enabled: yes

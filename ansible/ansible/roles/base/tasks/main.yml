@@ -1,0 +1,6 @@
+---
+- name: install git
+  apt:
+    name: git-core
+    update_cache: yes
+

@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('run') {
+            steps {
+                sh "docker run -d -p 9090:8080 ${env.DOCKER_HUB_REPOSITORY}"
+            }
+        }
+    }
+}

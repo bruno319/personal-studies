@@ -1,0 +1,47 @@
+pipeline {
+    agent {
+        docker {
+            image 'gradle:5.5.1-jdk8'
+        }
+    }
+    stages {
+        stage('clone') {
+            steps {
+                git branch: 'master', url: 'https://github.com/BrunoVieira319/petstore.git'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'gradle test'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'gradle build'
+            }
+        }
+        stage('publish') {
+            steps {
+                rtServer (
+                    id: "Artifactory-1",
+                    url: "${env.JFROG_SERVER}",
+                    username: "${env.JFROG_USER}",
+                    password: "${env.JFROG_PASSWORD}"
+                )
+                rtUpload (
+                    serverId: "Artifactory-1",
+                    spec: """
+                        {
+                            "files": [
+                                {
+                                    "pattern": "build/libs/pet-store-1.0.war",
+                                    "target": "generic-local/pet-store-1.0.war"
+                                }
+                            ]
+                        }
+                    """
+                )
+            }
+        }
+    }
+}

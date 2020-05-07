@@ -1,0 +1,35 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:18.04",
+      "commit": true,
+      "run_command": [
+        "-d",
+        "-i",
+        "-t",
+        "--",
+        "{{.Image}}"
+      ],
+      "changes": [
+        "EXPOSE 8282",
+        "WORKDIR /tmp",
+        "CMD [\"./{{user `application_name`}}\"]"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `application_name`}}",
+      "destination": "/tmp/{{user `application_name`}}"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "repository": "{{user `author`}}/{{user `application_name`}}",
+      "tag": "{{user `version`}}"
+    }
+  ]
+}

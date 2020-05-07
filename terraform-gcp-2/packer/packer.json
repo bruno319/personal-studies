@@ -1,0 +1,19 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "./credentials/My First Project-1324228b1961.json",
+      "project_id": "theta-strata-242418",
+      "image_name": "log-access-analytics-{{timestamp}}",
+      "source_image": "ubuntu-1804-bionic-v20190612",
+      "ssh_username": "packer",
+      "zone": "us-central1-a"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "./ansible/playbook.yml"
+    }
+  ]
+}

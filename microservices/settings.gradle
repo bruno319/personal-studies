@@ -1,0 +1,5 @@
+rootProject.name = 'microservices'
+include 'aggregator-service'
+include 'github-service'
+include 'twitter-service'
+

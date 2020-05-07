@@ -1,0 +1,38 @@
+#!/bin/bash
+
+ZONE="us-central1-a"
+SOURCE_IMAGE="ubuntu-1804-bionic-v20190813a"
+PROJECT_ID=$1
+ACCOUNT_FILE=$2
+IMAGE_NAME="calc-$(date +%s)"
+
+function bake() {
+  cd packer/ || exit
+  sudo packer build \
+    -var "zone=$ZONE" \
+    -var "project_id=$PROJECT_ID" \
+    -var "source_image=$SOURCE_IMAGE" \
+    -var "account_file=$ACCOUNT_FILE" \
+    -var "image_name=$IMAGE_NAME" \
+     gcp-calc.json
+  cd ..
+}
+
+function launch() {
+  cd terraform/ || exit
+  terraform init
+  terraform apply -auto-approve \
+    -var "project_id=$PROJECT_ID" \
+    -var "account_file=$ACCOUNT_FILE" \
+    -var "image_name=$IMAGE_NAME"
+  cd ..
+}
+
+function destroy() {
+  cd terraform/ || exit
+  terraform destroy -auto-approve \
+    -var "project_id=$PROJECT_ID" \
+    -var "account_file=$ACCOUNT_FILE" \
+    -var "image_name=$IMAGE_NAME"
+  cd ..
+}

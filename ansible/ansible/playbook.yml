@@ -1,0 +1,9 @@
+---
+- become: yes
+  hosts: localhost
+  vars:
+    app_path: /home/app
+  roles:
+    - base
+    - go
+    - microservice

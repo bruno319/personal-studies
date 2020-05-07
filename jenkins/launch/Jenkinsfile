@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'APPLICATION_NAME', defaultValue: 'calc-microservice')
+        string(name: 'AUTHOR', defaultValue: 'brunovieira')
+        string(name: 'VERSION', defaultValue: '1.0')
+        string(name: 'PORT', defaultValue: '8282')
+    }
+    stages {
+        stage('Run') {
+            steps {
+                sh "sudo docker run -d -p ${params.PORT}:8282 ${params.AUTHOR}/${params.APPLICATION_NAME}:${params.VERSION}"
+            }
+        }
+    }
+}

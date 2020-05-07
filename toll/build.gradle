@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+group 'com.ilegra.swe.brunovieira'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+mainClassName = 'com.ilegra.swe.brunovieira.toll.TollApp'
+
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    mergeServiceFiles{
+        path='META-INF/cxf'
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.1.0'
+
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.9'
+    compile 'javax.json:javax.json-api:1.1.4'
+
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.+'
+    compile 'org.apache.cxf:cxf-rt-rs-extension-providers:3.+'
+    compile 'org.apache.cxf:cxf-rt-rs-client:3.+'
+    compile 'org.apache.cxf:cxf-integration-cdi:3.+'
+
+    implementation 'org.springframework:spring-context:+'
+    implementation 'org.springframework:spring-beans:+'
+    implementation 'org.springframework:spring-core:+'
+    implementation 'org.springframework:spring-web:+'
+
+    compile 'org.eclipse.jetty:jetty-webapp:9.+'
+    compile 'org.eclipse.jetty:jetty-annotations:9.+'
+    compile 'org.eclipse.jetty:jetty-server:9.+'
+}
+
